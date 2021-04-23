@@ -1,7 +1,7 @@
 # Decidim::Tags
 
 [![Build Status](https://github.com/mainio/decidim-module-tags/actions/workflows/ci_tags.yml/badge.svg)](https://github.com/mainio/decidim-module-tags/actions)
-[![codecov](https://codecov.io/gh/mainio/decidim-module-tags/branch/master/graph/badge.svg)](https://codecov.io/gh/mainio/decidim-module-tags)
+[![codecov](https://codecov.io/gh/mainio/decidim-module-tags/branch/main/graph/badge.svg)](https://codecov.io/gh/mainio/decidim-module-tags)
 
 The gem has been developed by [Mainio Tech](https://www.mainiotech.fi/).
 
