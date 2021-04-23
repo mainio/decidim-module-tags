@@ -39,7 +39,7 @@ describe Decidim::Tags::TaggingsCommand do
     it "broadcasts ok and updates the tags" do
       expect { subject.call }.to broadcast(:ok)
 
-      expect(taggable.tags.map(&:id)).to eq(tags.map(&:id))
+      expect(taggable.tags.map(&:id)).to match_array(tags.map(&:id))
     end
   end
 end
