@@ -1,0 +1,13 @@
+<%= hidden_field_tag :taggable_id, form.object.taggable_id %>
+
+<div class="card">
+  <div class="card-divider">
+    <h2 class="card-title"><%= title %></h2>
+  </div>
+
+  <div class="card-section">
+    <div class="row column">
+      <%= form.translated :text_field, :name %>
+    </div>
+  </div>
+</div>

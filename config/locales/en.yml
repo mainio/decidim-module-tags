@@ -1,0 +1,58 @@
+en:
+  activemodel:
+    attributes:
+      tag:
+        name: Name
+      taggings:
+        tags: Tags
+  decidim:
+    tags:
+      actions:
+        back: Back
+        destroy: Delete
+        new: New %{name}
+        manage_tags: Manage tags
+      admin:
+        menu:
+          tags: Tags
+        taggings:
+          show:
+            no_results: "Create new tag: %{name}"
+            search: Search
+            title: Tags
+            update: Update
+          update:
+            invalid: Error updating the tags.
+            success: Tags updated successfully.
+        tags:
+          create:
+            error: Failed to create.
+            success: Created successfully.
+          destroy:
+            error: Error deleting.
+            success: Deleted successfully.
+          edit:
+            save: Update
+            title: Edit tag
+          index:
+            no_records_html: <p>No tags yet.</p>
+            title: Tags
+          new:
+            create: Create
+            title: New tag
+          update:
+            invalid: Error updating.
+            success: Updated successfully.
+      form:
+        loading: Loading...
+        no_results: No tags available.
+        remove: Remove
+      models:
+        tag:
+          fields:
+            id: ID
+            created_at: Creation time
+            name: Name
+            taggings: Taggings
+          name: Tag
+

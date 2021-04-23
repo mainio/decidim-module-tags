@@ -1,0 +1,44 @@
+// Makes it possible to style the tag input div element similarly to normal
+// inputs.
+//
+// Make sure you include this AFTER `@import "decidim/application";`, otherwise
+// the mixin won't be available.
+
+$tag-input-height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1) !default;
+
+.input{
+  @include form-element;
+
+  appearance: none;
+}
+
+.js-tags-input{
+  .input-tags{
+    height: auto;
+    padding: 0 $input-padding; // provided by the label margins
+    min-height: $tag-input-height;
+
+    &.empty{
+      padding: $input-padding;
+    }
+
+    .label{
+      margin: $input-padding $input-padding $input-padding 0;
+
+      &:first-of-type{
+        margin-left: 0;
+      }
+    }
+  }
+
+  .autocomplete{
+    position: relative; // Keeps the tribute container in correct position
+
+    .tribute-container{
+      top: -2px; // border width
+      margin-top: -$form-spacing; // attach to the input
+      max-width: none;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<div class="card" id="add-tags-search">
+  <div class="card-divider">
+    <h2 class="card-title flex--sbc">
+      <div>
+        <%= link_to taggable_name, taggable_return_path %>
+        &gt;
+        <%= t(".title") %>
+      </div>
+
+      <div class="flex--cc flex-gap--1">
+        <%= link_to t("actions.back", scope: "decidim.tags"), taggable_return_path, class: "button hollow tiny button--simple" %>
+        <%= link_to t("actions.manage_tags", scope: "decidim.tags"), decidim_tags_admin.tags_path, class: "button tiny button--simple" %>
+      </div>
+    </h2>
+  </div>
+  <div class="card-section">
+    <div class="filters row" id="add-tags-search">
+      <div class="column medium-4">
+        <div class="filters__search">
+          <%= search_field_tag :term, nil, label: false, id: "data_picker-autocomplete", class: "input-group-field", placeholder: t(".search"), data: {
+            no_results_text: t(".no_results", name: "{{term}}"),
+            no_results_url: "#{decidim_tags_admin.new_tag_path(taggable_id: taggable.to_sgid.to_s)}&name={{term}}"
+          } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= decidim_form_for(@form, url: taggable_update_taggings_path, html: { class: "form taggings-form update_taggings taggings_form_admin" }) do |f| %>
+  <div class="card hide" id="tags-results" data-results="<%= taggable.tags.collect { |t| [t.id, translated_attribute(t.name)] } %>">
+    <div class="card-section">
+      <div class="table-scroll">
+        <script type="text/template" class="decidim-template">
+          <tr data-tag-id="{{tag_id}}">
+            <td>{{tag_id}}</td>
+            <td>{{tag_name}}</td>
+            <td>
+              <input type="hidden" name="tags[]" value="{{tag_id}}">
+              <%= icon_link_to "circle-x", "#", t("actions.destroy", scope: "decidim.tags"), class: "remove-tagging action-icon--remove" %>
+            </td>
+          </tr>
+        </script>
+
+        <table class="table-list">
+          <thead>
+            <tr>
+              <th><%= t("models.tag.fields.id", scope: "decidim.tags") %></th>
+              <th><%= t("models.tag.fields.name", scope: "decidim.tags") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="button--double form-general-submit">
+    <%= f.submit t(".update") %>
+  </div>
+<% end %>
+
+<%= javascript_include_tag "decidim/tags/admin/taggings" %>
