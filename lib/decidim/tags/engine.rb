@@ -7,9 +7,11 @@ module Decidim
       isolate_namespace Decidim::Tags
 
       initializer "decidim_tags.query_extensions" do
-        Decidim::Api::QueryType.define do
-          Decidim::Tags::QueryExtensions.define(self)
-        end
+        # Decidim::Api::QueryType.define do
+        #   Decidim::Tags::QueryExtensions.define(self)
+        # end
+
+        Decidim::Api::QueryType.include Decidim::Tags::QueryExtensions
 
         # TODO: After update to 0.24:
         # Decidim::Api::QueryType.include Decidim::Assemblies::QueryExtensions

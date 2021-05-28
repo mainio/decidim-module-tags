@@ -32,14 +32,31 @@ class DummyResourceType < GraphQL::Schema::Object
 
   field :id, GraphQL::Types::ID, null: false
 end
-Decidim::Api::QueryType.define do
-  field :dummy do
-    type DummyResourceType
-    description "A dummy resource object"
-    argument :id, !types.ID, "The ID of the dummy resource to be found"
 
-    resolve lambda { |_obj, args, _ctx|
-      Decidim::DummyResources::DummyResource.find(args[:id])
-    }
+module DummyExtension
+  def self.included(type)
+    type.field :dummy,
+               [DummyResourceType],
+               null: false,
+               description: "A dummy resource object" do
+      argument :id, GraphQL::Types::ID, description: "The ID of the dummy resource to be found", required: false
+    end
+  end
+
+  def dummy(*)
+    Decidim::DummyResources::DummyResource.find(args[:id])
   end
 end
+
+Decidim::Api::QueryType.include DummyExtension
+# do
+#   field :dummy do
+#     type DummyResourceType
+#     description "A dummy resource object"
+#     argument :id, !types.ID, "The ID of the dummy resource to be found"
+
+#     resolve lambda { |_obj, args, _ctx|
+#       Decidim::DummyResources::DummyResource.find(args[:id])
+#     }
+#   end
+# end

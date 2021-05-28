@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "decidim/api/test/type_context"
+# require "decidim/api/test/type_context" ??
+require "decidim/tags/test/type_context"
 
 module Decidim
   module Tags
