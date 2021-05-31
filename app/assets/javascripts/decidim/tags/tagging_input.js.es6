@@ -4,7 +4,6 @@
 
   $(() => {
     const currentLocale = $("html").attr("lang");
-    console.log("currentLocale", currentLocale)
 
     $(".js-tags-input").each((_i, tagsEl) => {
       const $wrapper = $(tagsEl);
@@ -130,7 +129,6 @@
             "/api",
             {query: `{tags(name:"${text}", locale:"${currentLocale}") {id, name { translations {text, locale} }}}`}
           ).then((response) => {
-            console.log("response", response)
             const data = response.data.tags || {};
             callback(
               filterCurrentValues(
