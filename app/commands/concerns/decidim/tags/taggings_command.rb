@@ -17,11 +17,20 @@ module Decidim
       private
 
       def update_taggings(taggable, form)
+        organization =
+          if taggable.respond_to?(:organization)
+            taggable.organization
+          elsif form.respond_to?(:organization)
+            form.organization
+          else
+            form.current_component.organization
+          end
+
         tagger = Tagger.new(
           taggable: taggable,
-          organization: form.organization
+          organization: organization
         )
-        tagger.apply(form.taggings.tags)
+        tagger.apply(form.taggings&.tags)
       end
     end
   end
