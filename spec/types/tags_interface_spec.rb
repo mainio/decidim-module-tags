@@ -1,24 +1,15 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "decidim/api/test/type_context"
 require "decidim/tags/test/type_context"
 
 module Decidim
   module Tags
-    describe TagsInterface do
-      include_context "with a graphql type"
+    describe TagsInterface, type: :graphql do
+      include_context "with a graphql class type"
 
-      let(:type_class) { Decidim::Core::ComponentType }
-      let(:schema) { Decidim::Api::Schema }
-      let(:response) do
-        actual_query = %(
-          {
-            dummy(id: "#{model.id}") #{query}
-          }
-        )
-        resp = execute_query actual_query, variables.stringify_keys
-        resp["dummy"].first["tags"]
-      end
+      let(:type_class) { DummyResourceType }
       let(:model) { create(:dummy_resource) }
       let(:tags) { create_list(:tag, 5, organization: model.organization) }
 
@@ -39,10 +30,10 @@ module Decidim
         end
 
         it "returns the tags" do
-          expect(response.map { |t| t["id"].to_i }).to match_array(
+          expect(response["tags"].map { |t| t["id"].to_i }).to match_array(
             tags.map(&:id)
           )
-          expect(response.map { |t| t["name"]["translation"] }).to match_array(
+          expect(response["tags"].map { |t| t["name"]["translation"] }).to match_array(
             tags.map { |t| t.name["en"] }
           )
         end

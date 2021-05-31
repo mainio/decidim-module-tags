@@ -72,7 +72,7 @@ Include this cell inside the record's editing form:
 ```erb
 <%= decidim_form_for(@model_form) do |form| %>
   <% # ... other form fields ... %>
-  <%== cell("decidim/tags/form", form, label: t(".tags_label")) %>
+  <%== cell("decidim/tags/form", form, label: t("activemodel.attributes.taggings.tags")) %>
   <% # ... other form fields ... %>
 <% end %>
 ```
@@ -105,6 +105,13 @@ class YourUpdateCommand < Rectify::Command
   end
 end
 ```
+
+### Examples
+
+#### Proposals
+
+An example for how to use this module with proposals, see
+[docs/examples/proposals.md](docs/examples/proposals.md).
 
 ## Contributing
 
