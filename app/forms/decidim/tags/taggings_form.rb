@@ -16,11 +16,11 @@ module Decidim
       def map_model(model)
         # The model can be a collection proxy if the map_model is called through
         # the parent record's map_model method.
-        if model.is_a?(ActiveRecord::Associations::CollectionProxy)
-          self.tags = model.map(&:id)
-        else
-          self.tags = model.tags.map(&:id)
-        end
+        self.tags = if model.is_a?(ActiveRecord::Associations::CollectionProxy)
+                      model.map(&:id)
+                    else
+                      model.tags.map(&:id)
+                    end
       end
 
       def tag_models

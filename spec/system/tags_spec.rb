@@ -47,7 +47,7 @@ describe "Tags views", type: :system do
         end
 
         def controller_class
-          Class.new(ActionController::Base) do
+          Class.new(ApplicationController) do
             include Decidim::NeedsSnippets
           end
         end
@@ -62,9 +62,7 @@ describe "Tags views", type: :system do
       Rails.application.routes.draw do
         mount Decidim::Api::Engine => "/api"
 
-        # rubocop:disable Rails/HttpPositionalArguments
         get "test_tags", to: ->(_) { [200, {}, [final_html]] }
-        # rubocop:enable Rails/HttpPositionalArguments
       end
     end
 

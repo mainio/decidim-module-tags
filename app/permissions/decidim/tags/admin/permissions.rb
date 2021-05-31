@@ -10,12 +10,13 @@ module Decidim
           return permission_action if permission_action.subject != :tag &&
                                       permission_action.subject != :tags
 
-          if permission_action.subject == :tags
+          case permission_action.subject
+          when :tags
             case permission_action.action
             when :read
               can_read_tags?
             end
-          elsif permission_action.subject == :tag
+          when :tag
             case permission_action.action
             when :create
               can_create_tags?

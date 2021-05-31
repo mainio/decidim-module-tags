@@ -15,6 +15,7 @@ module Decidim
           argument :locale, GraphQL::Types::String, "The locale of the tag", required: false
         end
 
+        # rubocop:disable Lint/NestedMethodDefinition
         def tags(name: "", locale: nil)
           Decidim::Tags::TagsResolver.new(
             context[:current_organization],
@@ -22,6 +23,7 @@ module Decidim
             locale
           ).tags
         end
+        # rubocop:enable Lint/NestedMethodDefinition
       end
     end
   end

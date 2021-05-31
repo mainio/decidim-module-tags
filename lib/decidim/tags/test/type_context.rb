@@ -42,7 +42,7 @@ shared_context "with a graphql type" do
       variables: variables
     )
 
-    raise Exception, result["errors"].map { |e| e["message"] }.join(", ") if result["errors"]
+    raise StandardError, result["errors"].map { |e| e["message"] }.join(", ") if result["errors"]
 
     result["data"]
   end

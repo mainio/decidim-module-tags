@@ -44,7 +44,7 @@ module DummyExtension
   end
 
   def dummy(id:)
-    Decidim::DummyResources::DummyResource.all
+    Decidim::DummyResources::DummyResource.where(id: id)
   end
 end
 
