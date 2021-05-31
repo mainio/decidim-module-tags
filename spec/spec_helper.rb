@@ -43,8 +43,8 @@ module DummyExtension
     end
   end
 
-  def dummy(*)
-    Decidim::DummyResources::DummyResource.find(args[:id])
+  def dummy(id:)
+    Decidim::DummyResources::DummyResource.all
   end
 end
 

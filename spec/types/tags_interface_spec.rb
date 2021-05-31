@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require "decidim/api/test/type_context"
+# require "decidim/api/test/type_context"
+require "decidim/tags/test/type_context"
 
 module Decidim
   module Tags
@@ -17,7 +18,7 @@ module Decidim
           }
         )
         resp = execute_query actual_query, variables.stringify_keys
-        resp["dummy"]["tags"]
+        resp["dummy"].first["tags"]
       end
       let(:model) { create(:dummy_resource) }
       let(:tags) { create_list(:tag, 5, organization: model.organization) }
