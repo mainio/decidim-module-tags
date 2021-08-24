@@ -21,7 +21,7 @@ module Decidim
           taggable: taggable,
           organization: form.organization
         )
-        tagger.apply(form.taggings.tags)
+        tagger.apply(form.taggings&.tags)
       end
     end
   end
