@@ -4,7 +4,7 @@ module Decidim
   module Tags
     module Admin
       # This controller allows admins to control the tag records.
-      class TagsController < Tags::Admin::ApplicationController
+      class TagsController < ::Decidim::Tags::Admin::ApplicationController
         include TranslatableAttributes
 
         # For some reason the specs sometimes break without including this.

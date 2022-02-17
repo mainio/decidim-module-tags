@@ -24,10 +24,6 @@ module Decidim
           end
         end
 
-        initializer "decidim_tags_admin.assets" do |app|
-          app.config.assets.precompile += %w(decidim_tags_admin_manifest.js)
-        end
-
         initializer "decidim_tags_admin.admin_menu" do
           Decidim.menu :admin_menu do |menu|
             menu.item I18n.t("menu.tags", scope: "decidim.tags.admin"),

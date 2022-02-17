@@ -20,10 +20,6 @@ module Decidim
       initializer "decidim_tags.add_cells_view_paths" do
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::Tags::Engine.root}/app/cells")
       end
-
-      initializer "decidim_tags.assets" do |app|
-        app.config.assets.precompile += %w(decidim_tags_manifest.js)
-      end
     end
   end
 end

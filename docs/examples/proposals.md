@@ -69,7 +69,7 @@ end
 
 ### Add the Taggings Input to the Form
 
-Copy `app/decidim/proposals/proposals/_edit_form_fields.html.erb` from the
+Copy `app/views/decidim/proposals/proposals/_edit_form_fields.html.erb` from the
 proposals module to your local application within the same path. Add this change
 there to the location where you would see the taggings input fit best (e.g.
 under the body text field):
@@ -80,7 +80,7 @@ under the body text field):
 
 ### Add the Tags to the View
 
-Copy `app/decidim/proposals/proposals/show.html.erb` from the proposals
+Copy `app/views/decidim/proposals/proposals/show.html.erb` from the proposals
 module to your local application within the same path. Add this change there
 to the location where you would see the taggings input fit best (e.g. under the
 body text):
