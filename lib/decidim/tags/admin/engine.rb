@@ -26,12 +26,13 @@ module Decidim
 
         initializer "decidim_tags_admin.admin_menu" do
           Decidim.menu :admin_menu do |menu|
-            menu.item I18n.t("menu.tags", scope: "decidim.tags.admin"),
-                      decidim_tags_admin.tags_path,
-                      icon_name: "tag",
-                      position: 7.1,
-                      active: :inclusive,
-                      if: allowed_to?(:update, :organization, organization: current_organization)
+            menu.add_item :tags,
+                          I18n.t("menu.tags", scope: "decidim.tags.admin"),
+                          decidim_tags_admin.tags_path,
+                          icon_name: "tag",
+                          position: 7.1,
+                          active: :inclusive,
+                          if: allowed_to?(:update, :organization, organization: current_organization)
           end
         end
       end

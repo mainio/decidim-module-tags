@@ -55,11 +55,11 @@ describe "Taggings", type: :system do
       input = find("#add-tags-search input[type='search']")
       input.send_keys("he")
 
-      within ".autocomplete-suggestions" do
-        expect(page).to have_selector(".autocomplete-suggestion", text: "Heinola")
-        expect(page).to have_selector(".autocomplete-suggestion", text: "Helsinki")
+      within ".autocompleteContainer" do
+        expect(page).to have_selector("[title='Heinola']")
+        expect(page).to have_selector("[title='Helsinki']")
 
-        find(".autocomplete-suggestion", text: "Helsinki").click
+        find("[title='Helsinki']").click
       end
 
       # Check that the result was added to the list
@@ -88,7 +88,7 @@ describe "Taggings", type: :system do
       input = find("#add-tags-search input[type='search']")
       input.send_keys("Foobartag")
 
-      within ".autocomplete-suggestions" do
+      within ".autocompleteContainer" do
         expect(page).to have_selector("div a", text: "Create new tag: Foobartag")
         find("div a", text: "Create new tag: Foobartag").click
       end
@@ -102,8 +102,8 @@ describe "Taggings", type: :system do
 
       input = find("#add-tags-search input[type='search']")
       input.send_keys("foobar")
-      within ".autocomplete-suggestions" do
-        expect(page).to have_selector(".autocomplete-suggestion", text: "Foobartag")
+      within ".autocompleteContainer" do
+        expect(page).to have_selector(".autocomplete", text: "Foobartag")
       end
     end
   end

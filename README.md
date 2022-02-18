@@ -34,15 +34,6 @@ $ bundle exec rails decidim_tags:install:migrations
 
 ## Usage
 
-Add this to your `decidim.scss` file:
-
-```scss
-// AFTER THE LINE THAT SAYS:
-// @import "decidim/application";
-// ADD THIS:
-@import "decidim/tags/tagging-input";
-```
-
 Add this to the model you want to make taggable:
 
 ```ruby

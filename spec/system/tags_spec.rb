@@ -23,8 +23,8 @@ describe "Tags views", type: :system do
           <html lang="en">
           <head>
             <title>Tags Test</title>
-            #{stylesheet_link_tag "application"}
-            #{javascript_include_tag "application"}
+            #{stylesheet_pack_tag "decidim_core"}
+            #{javascript_pack_tag "decidim_core"}
             #{snippets.display(:head)}
           </head>
           <body>
