@@ -43,6 +43,7 @@ fi:
           update:
             invalid: Päivitys epäonnistui.
             success: Päivitys onnistui.
+      filter_results_for_tag: 'Etsi avainsanalla: %{tag}'
       form:
         loading: Ladataan...
         no_results: Ei merkintöjä saatavilla.

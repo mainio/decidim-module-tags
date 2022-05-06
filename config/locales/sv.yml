@@ -43,6 +43,7 @@ sv:
           update:
             invalid: Fel uppdatering.
             success: Uppdaterats.
+      filter_results_for_tag: 'Sök med tag: %{tag}'
       form:
         loading: Laddar...
         no_results: Inga taggar tillgängliga.

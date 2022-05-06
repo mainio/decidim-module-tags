@@ -43,6 +43,7 @@ en:
           update:
             invalid: Error updating.
             success: Updated successfully.
+      filter_results_for_tag: 'Filter results for tag: %{tag}'
       form:
         loading: Loading...
         no_results: No tags available.
