@@ -68,6 +68,16 @@ Include this cell inside the record's editing form:
 <% end %>
 ```
 
+In order to display the input correctly add this to your CSS:
+
+```scss
+# This is for the participant views
+Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/tags/tagging-input")
+
+# This is for the admin panel views
+Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/tags/tagging-input", group: :admin)
+```
+
 And finally, inside the commands that create and update the records, include the
 following:
 
