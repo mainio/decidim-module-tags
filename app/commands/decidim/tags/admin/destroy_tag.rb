@@ -4,7 +4,7 @@ module Decidim
   module Tags
     module Admin
       # A command with all the business logic when a user destroys a tag.
-      class DestroyTag < Rectify::Command
+      class DestroyTag < Decidim::Command
         # Public: Initializes the command.
         #
         # tag - The target object to be destroyed.

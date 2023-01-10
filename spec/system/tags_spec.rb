@@ -53,7 +53,7 @@ describe "Tags views", type: :system do
         end
       end
     end
-    let(:template) { template_class.new }
+    let(:template) { template_class.new(ActionView::LookupContext.new(ActionController::Base.view_paths), {}, []) }
 
     before do
       allow(template.controller).to receive(:current_organization).and_return(organization)

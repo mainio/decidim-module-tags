@@ -4,7 +4,7 @@ module Decidim
   module Tags
     # This query class filters all tags for the given component. You need to
     # extend this class to provide the
-    class ComponentRecordTags < Rectify::Query
+    class ComponentRecordTags < Decidim::Query
       class << self
         attr_reader :taggable_class
 

@@ -39,7 +39,7 @@ describe Decidim::Tags::FormCell, type: :cell do
       end
     end
   end
-  let(:template) { template_class.new }
+  let(:template) { template_class.new(ActionView::LookupContext.new(ActionController::Base.view_paths), {}, []) }
 
   before do
     taggable.update!(tags: tags)

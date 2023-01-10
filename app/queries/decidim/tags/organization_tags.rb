@@ -3,7 +3,7 @@
 module Decidim
   module Tags
     # This query class filters all assemblies given an organization.
-    class OrganizationTags < Rectify::Query
+    class OrganizationTags < Decidim::Query
       def initialize(organization, locale = nil)
         @organization = organization
         @locale = locale || I18n.locale.to_s

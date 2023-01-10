@@ -7,7 +7,7 @@ describe Decidim::Tags::TaggingsCommand do
 
   let(:command_class) do
     concern = described_class
-    Class.new(Rectify::Command) do
+    Class.new(Decidim::Command) do
       include concern
 
       def initialize(form, taggable)

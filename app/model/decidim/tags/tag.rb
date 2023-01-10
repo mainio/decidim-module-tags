@@ -9,8 +9,6 @@ module Decidim
                  foreign_key: :decidim_organization_id,
                  class_name: "Decidim::Organization"
       has_many :taggings, foreign_key: :decidim_tags_tag_id, dependent: :destroy
-
-      validates :organization, presence: true
     end
   end
 end

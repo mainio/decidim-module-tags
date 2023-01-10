@@ -3,7 +3,7 @@
 module Decidim
   module Tags
     # A command with all the business logic when a user updates taggings.
-    class UpdateTaggings < Rectify::Command
+    class UpdateTaggings < Decidim::Command
       # Public: Initializes the command.
       #
       # form - A form object with the params.

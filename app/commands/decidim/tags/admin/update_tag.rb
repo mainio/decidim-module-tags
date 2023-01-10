@@ -4,7 +4,7 @@ module Decidim
   module Tags
     module Admin
       # A command with all the business logic when a user updates a tag.
-      class UpdateTag < Rectify::Command
+      class UpdateTag < Decidim::Command
         # Public: Initializes the command.
         #
         # form - A form object with the params.

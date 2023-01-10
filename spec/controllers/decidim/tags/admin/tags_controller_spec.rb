@@ -58,7 +58,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
         create_params = params
         expect do
           post :create, params: create_params
-        end.to change { Decidim::Tags::Tag.count }.by(1)
+        end.to change(Decidim::Tags::Tag, :count).by(1)
 
         expect(flash[:notice]).not_to be_empty
         expect(response).to have_http_status(:found)
@@ -84,7 +84,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
           create_params = params.merge(taggable_id: taggable.to_sgid.to_s)
           expect do
             post :create, params: create_params
-          end.to change { Decidim::Tags::Tag.count }.by(1)
+          end.to change(Decidim::Tags::Tag, :count).by(1)
 
           expect(flash[:notice]).not_to be_empty
           expect(response).to have_http_status(:found)
@@ -143,7 +143,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
       expect do
         delete :destroy, params: { id: tag_to_destroy.id }
         expect(response).to have_http_status(:found)
-      end.to change { Decidim::Tags::Tag.count }.by(-1)
+      end.to change(Decidim::Tags::Tag, :count).by(-1)
     end
 
     context "when there is an error raised" do
