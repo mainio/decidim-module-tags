@@ -20,12 +20,6 @@ module Decidim
       initializer "decidim_tags.add_cells_view_paths" do
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::Tags::Engine.root}/app/cells")
       end
-
-      initializer "decidim_tags.configure_devise", before: "decidim_core.after_initializers_folder" do
-        # By default in Decidim this is set as 0. We need to have unconfirmed
-        # access so that participant can verify his/her email.
-        Decidim.unconfirmed_access_for = 1000.days
-      end
     end
   end
 end

@@ -12,7 +12,7 @@ module Decidim
         end
 
         let(:organization) { create(:organization) }
-        let(:user) { create(:user, :admin, organization: organization) }
+        let(:user) { create(:user, :admin, :confirmed, organization: organization) }
 
         before do
           request.env["decidim.current_organization"] = organization
