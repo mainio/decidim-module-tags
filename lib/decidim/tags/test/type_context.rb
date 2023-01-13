@@ -9,7 +9,7 @@ shared_context "with a graphql type" do
 
   let!(:current_organization) { create(:organization) }
   let!(:current_user) { create(:user, organization: current_organization) }
-  let(:model) { OpenStruct.new({}) }
+  let(:model) { Struct.new("Foo") }
   let(:type_class) { described_class }
   let(:variables) { {} }
   let(:root_value) { model }
@@ -52,7 +52,7 @@ shared_context "with a graphql scalar type" do
   include_context "with a graphql type"
 
   let(:root_value) do
-    OpenStruct.new(value: model)
+    Struct.new("Foo", value: model)
   end
 
   let(:type_class) do
