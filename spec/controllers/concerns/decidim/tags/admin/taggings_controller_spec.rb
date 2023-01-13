@@ -13,7 +13,7 @@ module Decidim
         let(:taggable) { create(:dummy_resource) }
         let(:component) { taggable.component }
         let(:organization) { component.organization }
-        let(:user) { create(:user, :admin, organization: organization) }
+        let(:user) { create(:user, :admin, :confirmed, organization: organization) }
         let!(:tags) { create_list(:tag, 5, organization: organization) }
 
         before do
