@@ -55,11 +55,11 @@ describe "Taggings", type: :system do
       input = find("#add-tags-search input[type='search']")
       input.send_keys("he")
 
-      within ".autocompleteContainer" do
-        expect(page).to have_selector("[title='Heinola']")
-        expect(page).to have_selector("[title='Helsinki']")
+      within ".autoComplete_wrapper" do
+        expect(page).to have_selector("li", text: "Heinola")
+        expect(page).to have_selector("li", text: "Helsinki")
 
-        find("[title='Helsinki']").click
+        find("li", text: "Helsinki").click
       end
 
       # Check that the result was added to the list
@@ -88,12 +88,12 @@ describe "Taggings", type: :system do
       input = find("#add-tags-search input[type='search']")
       input.send_keys("Foobartag")
 
-      within ".autocompleteContainer" do
-        expect(page).to have_selector("div a", text: "Create new tag: Foobartag")
-        find("div a", text: "Create new tag: Foobartag").click
+      within ".autoComplete_wrapper" do
+        expect(page).to have_selector("div", text: "Foobartag")
+        expect(page).to have_content("Create new tag")
+        find("a", text: "Foobartag").click
       end
 
-      expect(page).to have_content("New tag")
       within "form.tags-form" do
         find("button[type='submit']").click
       end
@@ -102,8 +102,8 @@ describe "Taggings", type: :system do
 
       input = find("#add-tags-search input[type='search']")
       input.send_keys("foobar")
-      within ".autocompleteContainer" do
-        expect(page).to have_selector(".autocomplete", text: "Foobartag")
+      within ".autoComplete_wrapper" do
+        expect(page).to have_selector("ul li", text: "Foobartag")
       end
     end
   end

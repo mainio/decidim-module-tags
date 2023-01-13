@@ -51,7 +51,16 @@ class YourModelForm < Decidim::Form
   include Decidim::Tags::TaggableForm
 end
 ```
+Also, you need to add the following to the your map_model method, if applicable:
 
+```ruby
+def map_model(model)
+   # Add the following line to your method
+  self.taggings = Decidim::Tags::TaggingsForm.from_model(model)
+  super(model)
+  # ...
+end
+```
 Include the following cell to display the tags in the record pages:
 
 ```erb

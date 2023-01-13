@@ -7,6 +7,7 @@ module Decidim
     module Admin
       describe "TaggingsController", type: :controller do
         controller Decidim::DummyResources::Admin::TaggingsController do
+          # Empty block
         end
 
         let(:taggable) { create(:dummy_resource) }

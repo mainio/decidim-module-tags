@@ -10,3 +10,4 @@ Decidim::Webpacker.register_entrypoints(
 )
 
 Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/tags/tagging-input")
+Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/tags/tagging-input", group: :admin)

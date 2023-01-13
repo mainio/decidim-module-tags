@@ -1,218 +1,141 @@
+import AutoComplete from "src/decidim/autocomplete";
 $(() => {
   const currentLocale = $("html").attr("lang");
-  const $search = $("#data_picker-autocomplete");
-  const $results = $("#tags-results");
-  const $template = $(".decidim-template", $results);
-  const $form = $search.parents("form");
+  const searchInput = document.getElementById("data_picker-autocomplete");
+  const results = document.getElementById("tags-results");
+  const template = results.querySelector(".decidim-template");
+  const form = $("#data_picker-autocomplete").parents("form");
+  // remove the comment and remove thid line
+  // const form = document.getElementById("edit_taggings_13");
   let currentSearch = "";
   let selectedTerms = [];
-  const addRowItem = (id, title) => {
-    let template = $template.html();
-    template = template.replace(new RegExp("{{tag_id}}", "g"), id);
-    template = template.replace(new RegExp("{{tag_name}}", "g"), title);
-    const $newRow = $(template);
-    $("table tbody", $results).append($newRow);
-    $results.removeClass("hide");
-
-    // Listen to the click event on the remove button
-    $(".remove-tagging", $newRow).on("click", (ev) => {
-      ev.preventDefault();
-      $newRow.remove();
-
-      if ($("table tbody tr", $results).length < 1) {
-        $results.addClass("hide");
-      }
-      selectedTerms = selectedTerms.filter((item) => item !== title);
-    });
-    selectedTerms.push(title);
-  };
   let xhr = null;
 
-  // Prevent accidental submit on the autocomplete field
-  $form.on("submit", (ev) => ev.preventDefault());
-
-  // jquery.autocomplete is calling this method which is apparently removed from
-  // newer jQuery versions.
-  $.isObject = $.isPlainObject; // eslint-disable-line id-length
-
-  const customizeAutocomplete = (ac) => {
-    const $ac = $(`#${ac.mainContainerId}`);
-    const $acWrap = $("<div />");
-    $ac.css({ top: "", left: "", position: "relative" });
-    $acWrap.css({ position: "relative" });
-    $acWrap.append($ac);
-
-    $ac.find("input")
-
-    const removeNoResultSuggestion = () => {
-      const $noResultsSuggestion = $ac.find("#no-result-suggest")
-      if ($noResultsSuggestion) {
-        $noResultsSuggestion.remove();
-      }
-    }
-
-    $search.on("keyup", function() {
-      currentSearch = $search.val();
-
-      if ($search.val().length === 0) {
-        removeNoResultSuggestion();
-      }
-    });
-
-    // Move the element to correct position in the DOM to control its alignment
-    // better.
-    $search.after($acWrap);
-
-    // Do not set the top and left CSS attributes on the element
-    ac.fixPosition = () => {};
-
-    // Hack getSuggetsions
-    ac.getSuggestions = (q) => {
-      var self = ac
-      var cached = self.isLocal ? self.getSuggestionsLocal(q) : ac.cachedResponse[q]
-      if (cached && ($.isArray(cached.suggestions) || $.isObject(cached.suggestions))) {
-        self.suggestions = cached.suggestions
-        self.data = cached.data
-        self.suggest()
-      } else if (!ac.isBadQuery(q)) {
-        xhr = $.post(
-          "/api",
-          {query: `{tags(name:"${q}", locale:"${currentLocale}") {id, name { translations {text, locale} }}}`}
-        ).then((apiResponse) => {
-          const data = apiResponse.data.tags || {};
-          const results = data.map((item) => {
-            let name = item.name.translations.find((tr) => tr.locale === currentLocale);
-            if (!name) {
-              name = item.name.translations[0];
-            }
-            return [item.id, name.text];
-          })
-
-          if (results.length > 0) {
-            removeNoResultSuggestion();
-
-            let suggestions = [];
-            let data = []
-            results.forEach((result) => {
-              data.push(
-                {
-                  value: result[1],
-                  data: result[0]
-                });
-              suggestions.push(result[1]);
-            });
-            ac.processResponse(JSON.stringify({
-              query: q,
-              suggestions: suggestions,
-              data: data
-            }));
-          } else if (q.length > 2) {
-            const val = $search.data("no-results-text");
-            const url = $search.data("no-results-url").replace("{{term}}", encodeURIComponent(q));
-            $ac.append(`<div id="no-result-suggest"><a href="${url}">${val.replace("{{term}}", q)}</a></div>`);
-          }
-        });
-      }
-    };
-
-    // Hack the suggest method to exclude values that are already selected.
-    ac.origSuggest = ac.suggest;
-    ac.suggest = () => {
-      // Filter out the selected items from the list
-      ac.suggestions = ac.suggestions.filter((val) => !selectedTerms.includes(val));
-      ac.data = ac.data.filter((val) => !selectedTerms.includes(val.value));
-
-      return ac.origSuggest();
-    };
-
-    // Customize the onKeyPress to allow spaces because we do not want
-    // selection to happen on space press.
-    //
-    // Original code at: https://git.io/JzjAM
-    ac.onKeyPress = (ev) => {
-      if (ac.disabled || !ac.enabled) {
-        return;
-      }
-
-      switch (ev.keyCode) {
-      case 27:
-        // ESC
-        ac.el.val(ac.currentValue);
-        ac.hide();
-        break;
-      case 9:
-      case 13:
-        // TAB or RETURN
-        if (ac.suggestions.length === 1) {
-          ac.select(0)
-        } else if (ac.selectedIndex === -1) {
-          ac.hide();
-          return;
-        } else {
-          ac.select(ac.selectedIndex);
-        }
-        if (ev.keyCode === 9) {
-          return;
-        }
-        break;
-      case 38:
-        // UP
-        ac.moveUp();
-        break
-      case 40:
-        // DOWN
-        ac.moveDown();
-        break
-      // DISABLED:
-      // case 32:
-      //   // SPACE
-      //   if (ac.selectedIndex === -1) {
-      //     break;
-      //   }
-      //   ac.select(ac.selectedIndex);
-      //   break;
-      default:
-        return;
-      }
-      ev.stopImmediatePropagation();
-      ev.preventDefault();
-    }
-
-    return ac;
-  };
-
-  // Customized methods for the autocomplete to add our hacks
-  $.fn.tcAutocomplete = function(options) {
-    $(this).each((_i, el) => {
-      const $el = $(el);
-      const ac = customizeAutocomplete($el.autocomplete(options));
-      $el.data("autocomplete", ac);
-    })
-  };
-
-  $search.tcAutocomplete({
-    width: "100%",
-    minChars: 2,
-    noCache: true,
-    // serviceUrl: $form.attr("action"),
-    // delimiter: "||",
-    deferRequestBy: 500,
-    // Custom format result because of some weird bugs in the old version of the
-    // jquery.autocomplete library.
-    formatResult: (term, itemData) => {
-      const sanitizedSearch = term.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
-      const re = new RegExp(`(${sanitizedSearch})`, "gi");
-
-      const value = `${itemData.value}`;
-      return value.replace(re, "<strong>$1</strong>");
-    },
-    onSelect: function(suggestion, itemData) {
-      addRowItem(itemData.data, itemData.value);
-      $search.val(currentSearch);
-    }
+  searchInput.addEventListener("keyup", () => {
+    currentSearch = searchInput.value;
   });
 
-  const resultsArray = $results.data("results");
+  // Prevent accidental submit on the autocomplete field
+  form.on("submit", (ev) => ev.preventDefault());
+
+  const noTagContent = (query) => {
+    const el = document.querySelector(".autoComplete_wrapper");
+    const val = $("#data_picker-autocomplete").data("no-results-text");
+    const url = $("#data_picker-autocomplete").data("no-results-url").replace("{{term}}", encodeURIComponent(query));
+
+    if (el.querySelector(".no-content")) {
+      el.querySelector(".no-content").classList.remove("hide")
+    } else {
+      let newDiv = el.appendChild(document.createElement("div"))
+      newDiv.classList.add("no-content")
+    }
+    const noContent = el.querySelector(".no-content")
+    noContent.innerHTML = `<a href="${url}">${val.replace("{{term}}", query)}</a>`;
+  }
+
+  const dataSource = (query, callback) => {
+    try {
+      xhr.abort();
+      xhr = null;
+    } catch (exception) { xhr = null; }
+
+    xhr = $.post(
+      "/api",
+      {query: `{tags(name:"${query}", locale:"${currentLocale}") {id, name { translations {text, locale} }}}`}
+    ).then((response) => {
+      if (response.data.tags.length === 0) {
+        noTagContent(currentSearch)
+      }
+      const tags = response.data.tags.map((tag) => {
+        const localName = tag.name.translations.find((tr) => tr.locale === currentLocale);
+        return { id: tag.id, name: localName.text };
+      })
+
+      callback(tags);
+    });
+  };
+
+  // Just to avoid the "no-new" ESLint issue, wrap this in a function
+  const initiate = () => {
+    return new AutoComplete(searchInput, {
+      name: searchInput.getAttribute("name"),
+      placeholder: searchInput.getAttribute("placeholder"),
+      // mode: "multi", // sticky|single|multi|`null`
+      selected: "",
+      searchPrompt: true,
+      searchPromptText: "placeholder",
+      threshold: 2,
+      dataMatchKeys: ["name"],
+      modifyResult: (item, valueItem) => {
+        const sanitizedSearch = currentSearch.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+        const re = new RegExp(`(${sanitizedSearch})`, "gi");
+        const replacedText = item.textContent.replace(re, '<strong class="search-highlight">$1</strong>');
+        item.innerHTML = replacedText;
+        item.dataset.value = valueItem.name;
+      },
+      dataSource
+    });
+  };
+
+  // Method for hiding the currently selected items
+  const hideSelectedItems = () => {
+    const resultsList = searchInput.nextSibling;
+    for (const resultItem of resultsList.querySelectorAll("li")) {
+      if (selectedTerms.indexOf(resultItem.dataset.value) < 0) {
+        resultItem.classList.remove("hide");
+      } else {
+        resultItem.classList.add("hide");
+      }
+    }
+  };
+  initiate();
+
+  const addRowItem = (id, name) => {
+    const newRow = template.content.cloneNode(true).querySelector("tr");
+    newRow.innerHTML = newRow.innerHTML.replace(new RegExp("{{tag_id}}", "g"), id);
+    newRow.innerHTML = newRow.innerHTML.replace(new RegExp("{{tag_name}}", "g"), name);
+    newRow.dataset.tagId = newRow.dataset.tagId.replace(new RegExp("{{tag_id}}", "g"), id)
+
+    const targetTable = results.querySelector("table tbody");
+    targetTable.appendChild(newRow);
+    results.classList.remove("hide");
+
+
+    // Add it to the selected elements and hide the selected item
+    selectedTerms.push(name);
+    hideSelectedItems();
+
+
+    // Listen to the click event on the remove button
+    newRow.querySelector(".action-icon--remove").addEventListener("click", (removeEv) => {
+      removeEv.preventDefault();
+      newRow.parentNode.removeChild(newRow);
+      selectedTerms = selectedTerms.filter((item) => item !== name);
+      hideSelectedItems();
+
+      if (targetTable.querySelectorAll("tr").length < 1) {
+        results.classList.add("hide");
+      }
+    });
+  }
+
+  // Currently not possible in Decidim to get notified when the list is
+  // modified, so hack it with a MutationObserver.
+  // Create an observer instance linked to the callback function
+  const observer = new MutationObserver(() => {
+    hideSelectedItems();
+  });
+  observer.observe(searchInput.nextSibling, { childList: true });
+
+  // Hide the already selected items when the input is opened
+  // Handle the selection of an item
+  searchInput.addEventListener("selection", (ev) => {
+    const selection = ev.detail.selection;
+    const selectedItem = selection.value;
+    addRowItem(selectedItem.id, selectedItem.name);
+  });
+
+  const resultsArray = JSON.parse(results.dataset.results)
   if (Array.isArray(resultsArray)) {
     resultsArray.forEach((value) => {
       addRowItem(value[0], value[1]);

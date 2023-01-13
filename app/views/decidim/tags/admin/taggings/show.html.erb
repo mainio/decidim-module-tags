@@ -31,7 +31,7 @@
   <div class="card hide" id="tags-results" data-results="<%= taggable.tags.collect { |t| [t.id, translated_attribute(t.name)] } %>">
     <div class="card-section">
       <div class="table-scroll">
-        <script type="text/template" class="decidim-template">
+        <template class="decidim-template">
           <tr data-tag-id="{{tag_id}}">
             <td>{{tag_id}}</td>
             <td>{{tag_name}}</td>
@@ -40,7 +40,7 @@
               <%= icon_link_to "circle-x", "#", t("actions.destroy", scope: "decidim.tags"), class: "remove-tagging action-icon--remove" %>
             </td>
           </tr>
-        </script>
+        </template>
 
         <table class="table-list">
           <thead>
