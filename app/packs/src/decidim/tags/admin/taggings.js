@@ -5,8 +5,7 @@ $(() => {
   const results = document.getElementById("tags-results");
   const template = results.querySelector(".decidim-template");
   const form = $("#data_picker-autocomplete").parents("form");
-  // remove the comment and remove thid line
-  // const form = document.getElementById("edit_taggings_13");
+
   let currentSearch = "";
   let selectedTerms = [];
   let xhr = null;
@@ -60,7 +59,6 @@ $(() => {
     return new AutoComplete(searchInput, {
       name: searchInput.getAttribute("name"),
       placeholder: searchInput.getAttribute("placeholder"),
-      // mode: "multi", // sticky|single|multi|`null`
       selected: "",
       searchPrompt: true,
       searchPromptText: "placeholder",

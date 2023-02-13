@@ -22,7 +22,6 @@ Decidim::DummyResources::DummyResource.include(Decidim::Tags::Taggable)
 Decidim::DummyResources::NestedDummyResource.include(Decidim::Tags::Taggable)
 Decidim::DummyResources::DummyResourceForm.include(Decidim::Tags::TaggableForm)
 
-# TODO: Update to 0.24
 # This defines a custom endpoint for loading dummy resources through the API.
 class DummyResourceType < GraphQL::Schema::Object
   graphql_name "DummyResource"
@@ -49,17 +48,7 @@ module DummyExtension
 end
 
 Decidim::Api::QueryType.include DummyExtension
-# do
-#   field :dummy do
-#     type DummyResourceType
-#     description "A dummy resource object"
-#     argument :id, !types.ID, "The ID of the dummy resource to be found"
 
-#     resolve lambda { |_obj, args, _ctx|
-#       Decidim::DummyResources::DummyResource.find(args[:id])
-#     }
-#   end
-# end
 RSpec.configure do |config|
   config.before do
     # Re-define the password validators due to a bug in the "email included"

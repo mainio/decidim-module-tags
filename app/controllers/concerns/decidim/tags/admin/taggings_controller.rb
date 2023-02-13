@@ -61,7 +61,6 @@ module Decidim
 
         def update
           @form = form(Decidim::Tags::TaggingsForm).from_params(params)
-          # raise @form.tags.inspect
           Decidim::Tags::UpdateTaggings.call(@form, taggable) do
             on(:ok) do
               flash[:notice] = I18n.t("taggings.update.success", scope: "decidim.tags.admin")
