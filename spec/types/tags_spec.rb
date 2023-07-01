@@ -4,8 +4,7 @@ require "spec_helper"
 require "decidim/api/test/type_context"
 
 describe "Decidim::Api::QueryType" do
-  include_context "with a graphql type"
-  let(:schema) { Decidim::Api::Schema }
+  include_context "with a graphql class type"
 
   let(:locale) { "en" }
 
