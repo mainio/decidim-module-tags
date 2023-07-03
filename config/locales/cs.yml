@@ -2,57 +2,57 @@ cs:
   activemodel:
     attributes:
       tag:
-        name: Name
+        name: Název
       taggings:
-        tags: Tags
+        tags: Štítky
   decidim:
     tags:
       actions:
-        back: Back
-        destroy: Delete
-        new: New %{name}
-        manage_tags: Manage tags
+        back: Zpět
+        destroy: Smazat
+        new: Nový %{name}
+        manage_tags: Spravovat štítky
       admin:
         menu:
-          tags: Tags
+          tags: Štítky
         taggings:
           show:
-            no_results: "Create new tag: %{name}"
-            search: Search
-            title: Tags
-            update: Update
+            no_results: "Vytvořit nový štítek: %{name}"
+            search: Hledat
+            title: Štítky
+            update: Aktualizovat
           update:
-            invalid: Error updating the tags.
-            success: Tags updated successfully.
+            invalid: Chyba při aktualizaci štítků.
+            success: Štítky byly úspěšně aktualizovány.
         tags:
           create:
-            error: Failed to create.
-            success: Created successfully.
+            error: Vytvoření se nezdařilo.
+            success: Úspěšně vytvořeno.
           destroy:
-            error: Error deleting.
-            success: Deleted successfully.
+            error: Chyba při mazání.
+            success: Úspěšně smazáno.
           edit:
-            save: Update
-            title: Edit tag
+            save: Aktualizovat
+            title: Upravit štítek
           index:
-            no_records_html: <p>No tags yet.</p>
-            title: Tags
+            no_records_html: <p>Zatím žádné štítky.</p>
+            title: Štítky
           new:
-            create: Create
-            title: New tag
+            create: Vytvořit
+            title: Nový štítek
           update:
-            invalid: Error updating.
-            success: Updated successfully.
+            invalid: Chyba při aktualizaci.
+            success: Úspěšně aktualizováno.
       form:
-        loading: Loading...
-        no_results: No tags available.
-        remove: Remove
+        loading: Načítání...
+        no_results: Nejsou k dispozici žádné štítky.
+        remove: Odebrat
       models:
         tag:
           fields:
             id: ID
-            created_at: Creation time
-            name: Name
-            taggings: Taggings
-          name: Tag
+            created_at: Čas vytvoření
+            name: Název
+            taggings: Označování
+          name: Štítek
 
