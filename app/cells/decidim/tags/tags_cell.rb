@@ -6,14 +6,18 @@ module Decidim
     class TagsCell < Decidim::ViewModel
       include Decidim::TranslatableAttributes
 
-      # After Rails 6 upgrade we can use `private: true` in the delegate call.
-      delegate :tags, to: :model
-      private :tags
-
       def show
         return unless tags.any?
 
         render
+      end
+
+      private
+
+      def tags
+        return [] unless model.respond_to?(:tags)
+
+        model.tags
       end
     end
   end
