@@ -1,0 +1,58 @@
+cs:
+  activemodel:
+    attributes:
+      tag:
+        name: Název
+      taggings:
+        tags: Štítky
+  decidim:
+    tags:
+      actions:
+        back: Zpět
+        destroy: Smazat
+        new: Nový %{name}
+        manage_tags: Spravovat štítky
+      admin:
+        menu:
+          tags: Štítky
+        taggings:
+          show:
+            no_results: "Vytvořit nový štítek: %{name}"
+            search: Hledat
+            title: Štítky
+            update: Aktualizovat
+          update:
+            invalid: Chyba při aktualizaci štítků.
+            success: Štítky byly úspěšně aktualizovány.
+        tags:
+          create:
+            error: Vytvoření se nezdařilo.
+            success: Úspěšně vytvořeno.
+          destroy:
+            error: Chyba při mazání.
+            success: Úspěšně smazáno.
+          edit:
+            save: Aktualizovat
+            title: Upravit štítek
+          index:
+            no_records_html: <p>Zatím žádné štítky.</p>
+            title: Štítky
+          new:
+            create: Vytvořit
+            title: Nový štítek
+          update:
+            invalid: Chyba při aktualizaci.
+            success: Úspěšně aktualizováno.
+      form:
+        loading: Načítání...
+        no_results: Nejsou k dispozici žádné štítky.
+        remove: Odebrat
+      models:
+        tag:
+          fields:
+            id: ID
+            created_at: Čas vytvoření
+            name: Název
+            taggings: Označování
+          name: Štítek
+
