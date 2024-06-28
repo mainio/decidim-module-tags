@@ -9,15 +9,15 @@ describe Decidim::Tags::TagsCell, type: :cell do
 
   let(:taggable) { create(:dummy_resource) }
   let(:organization) { taggable.component.organization }
-  let(:tags) { create_list(:tag, 5, organization: organization) }
+  let(:tags) { create_list(:tag, 5, organization:) }
 
   before do
-    taggable.update!(tags: tags)
+    taggable.update!(tags:)
   end
 
   it "displays the tags" do
     tags.each do |tag|
-      expect(subject).to have_selector(".label", text: tag.name["en"])
+      expect(subject).to have_css(".label", text: tag.name["en"])
     end
   end
 
@@ -25,7 +25,7 @@ describe Decidim::Tags::TagsCell, type: :cell do
     let(:tags) { [] }
 
     it "does not display anything" do
-      expect(subject).not_to have_selector(".label")
+      expect(subject).to have_no_css(".label")
     end
   end
 end

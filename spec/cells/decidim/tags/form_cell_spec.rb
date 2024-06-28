@@ -23,10 +23,10 @@ describe Decidim::Tags::FormCell, type: :cell do
   let(:options) { {} }
   let(:taggable) { create(:dummy_resource) }
   let(:organization) { taggable.component.organization }
-  let(:tags) { create_list(:tag, 5, organization: organization) }
+  let(:tags) { create_list(:tag, 5, organization:) }
 
   let(:form) do
-    Decidim::DummyResources::DummyResourceForm.from_params(
+    Decidim::Dev::DummyResourceForm.from_params(
       taggings: { tags: tags.map(&:id) }
     )
   end
@@ -42,21 +42,21 @@ describe Decidim::Tags::FormCell, type: :cell do
   let(:template) { template_class.new(ActionView::LookupContext.new(ActionController::Base.view_paths), {}, []) }
 
   before do
-    taggable.update!(tags: tags)
+    taggable.update!(tags:)
 
     allow(template).to receive(:controller).and_return(controller)
   end
 
   it "displays the existing tags and their hidden inputs" do
-    expect(subject).to have_selector("label", text: "Tags")
+    expect(subject).to have_css("label", text: "Tags")
 
     tags.each do |tag|
       within ".input-tags" do
-        expect(subject).to have_selector(".label", text: tag.name["en"])
+        expect(subject).to have_css(".label", text: tag.name["en"])
       end
 
       within ".js-tags-input" do
-        expect(page).to have_selector(
+        expect(page).to have_css(
           "input[name='dummy_resource[taggings][tags][]'][value='#{tag.id}'][data-tag-name='#{CGI.escapeHTML(tag.name["en"])}']",
           visible: :hidden
         )
@@ -68,7 +68,7 @@ describe Decidim::Tags::FormCell, type: :cell do
     let(:options) { { label: false } }
 
     it "does not display the label" do
-      expect(subject).not_to have_selector("label")
+      expect(subject).to have_no_css("label")
     end
   end
 
@@ -76,7 +76,7 @@ describe Decidim::Tags::FormCell, type: :cell do
     let(:options) { { label: "Custom" } }
 
     it "displays the custom label" do
-      expect(subject).to have_selector("label", text: "Custom")
+      expect(subject).to have_css("label", text: "Custom")
     end
   end
 
@@ -85,11 +85,11 @@ describe Decidim::Tags::FormCell, type: :cell do
 
     it "does not display any existing tags" do
       within ".input-tags" do
-        expect(subject).not_to have_selector(".label")
+        expect(subject).to have_no_css(".label")
       end
 
       within ".js-tags-input" do
-        expect(subject).not_to have_selector(input, visible: :hidden)
+        expect(subject).to have_no_selector(input, visible: :hidden)
       end
     end
   end

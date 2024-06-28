@@ -6,7 +6,7 @@ describe Decidim::Tags::Admin::CreateTag do
   let(:form_klass) { Decidim::Tags::Admin::TagForm }
 
   let(:organization) { create(:organization) }
-  let(:user) { create :user, :admin, :confirmed, organization: organization }
+  let(:user) { create(:user, :admin, :confirmed, organization:) }
   let(:form) do
     form_klass.from_params(
       form_params

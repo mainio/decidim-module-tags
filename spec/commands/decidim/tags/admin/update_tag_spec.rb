@@ -6,7 +6,7 @@ describe Decidim::Tags::Admin::UpdateTag do
   let(:form_klass) { Decidim::Tags::Admin::TagForm }
 
   let(:organization) { create(:organization) }
-  let(:user) { create :user, :admin, :confirmed, organization: organization }
+  let(:user) { create(:user, :admin, :confirmed, organization:) }
   let(:form) do
     form_klass.from_params(
       form_params
@@ -16,7 +16,7 @@ describe Decidim::Tags::Admin::UpdateTag do
     )
   end
 
-  let!(:tag) { create :tag, organization: organization }
+  let!(:tag) { create(:tag, organization:) }
 
   describe "call" do
     let(:form_params) do

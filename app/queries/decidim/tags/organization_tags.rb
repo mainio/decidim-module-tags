@@ -10,7 +10,7 @@ module Decidim
       end
 
       def query
-        q = Decidim::Tags::Tag.where(
+        q = Decidim::Tags::Tag.includes(:taggings).where(
           organization: @organization
         )
         q.order(Arel.sql("name ->> #{q.connection.quote(@locale)} ASC"))

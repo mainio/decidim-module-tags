@@ -10,12 +10,12 @@ module Decidim
       end
 
       def apply(ids)
-        tags = Tag.where(id: ids, organization: organization)
+        tags = Tag.where(id: ids, organization:)
 
         taggable.taggings.destroy_all
         return unless tags.any?
 
-        taggable.taggings.create!(tags.map { |tag| { tag: tag } })
+        taggable.taggings.create!(tags.map { |tag| { tag: } })
       end
 
       private

@@ -4,12 +4,12 @@ require "spec_helper"
 
 describe Decidim::Tags::Tagger do
   subject do
-    described_class.new(taggable: taggable, organization: organization)
+    described_class.new(taggable:, organization:)
   end
 
   let(:taggable) { create(:dummy_resource) }
   let(:organization) { taggable.component.organization }
-  let(:tags) { create_list(:tag, 5, organization: organization) }
+  let(:tags) { create_list(:tag, 5, organization:) }
 
   it "tags the given resource" do
     subject.apply(tags.map(&:id))
@@ -18,8 +18,8 @@ describe Decidim::Tags::Tagger do
   end
 
   context "when updating tags" do
-    let(:tags_before) { create_list(:tag, 3, organization: organization) }
-    let(:final) { Decidim::DummyResources::DummyResource.find(taggable.id) }
+    let(:tags_before) { create_list(:tag, 3, organization:) }
+    let(:final) { Decidim::Dev::DummyResource.find(taggable.id) }
 
     before do
       taggable.update!(tags: tags_before)

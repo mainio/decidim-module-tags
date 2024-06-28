@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Tags
     module Admin
-      describe "TaggingsController", type: :controller do
+      describe "TaggingsController" do
         controller Decidim::DummyResources::Admin::TaggingsController do
           # Empty block
         end
@@ -13,14 +13,14 @@ module Decidim
         let(:taggable) { create(:dummy_resource) }
         let(:component) { taggable.component }
         let(:organization) { component.organization }
-        let(:user) { create(:user, :admin, :confirmed, organization: organization) }
-        let!(:tags) { create_list(:tag, 5, organization: organization) }
+        let(:user) { create(:user, :admin, :confirmed, organization:) }
+        let!(:tags) { create_list(:tag, 5, organization:) }
 
         before do
           request.env["decidim.current_organization"] = organization
           request.env["decidim.current_component"] = component
           sign_in user, scope: :user
-          taggable.update!(tags: tags)
+          taggable.update!(tags:)
 
           routes.draw do
             get "show" => "decidim/dummy_resources/admin/taggings#show"
@@ -43,11 +43,11 @@ module Decidim
           render_views
 
           let(:params) { { tags: new_tags.map(&:id), dummy_resource_id: taggable.id } }
-          let(:new_tags) { create_list(:tag, 5, organization: organization) }
-          let(:final) { Decidim::DummyResources::DummyResource.find(taggable.id) }
+          let(:new_tags) { create_list(:tag, 5, organization:) }
+          let(:final) { Decidim::Dev::DummyResource.find(taggable.id) }
 
           it "updates the record successfully" do
-            patch :update, params: params
+            patch(:update, params:)
 
             expect(response).to redirect_to("/dummy_resources")
             expect(final.tags.map(&:id)).to match_array(new_tags.map(&:id))
@@ -65,7 +65,7 @@ module Decidim
             end
 
             it "displays an error and renders the show view" do
-              patch :update, params: params
+              patch(:update, params:)
 
               expect(response).to have_http_status(:ok)
               expect(flash[:alert]).to be_present

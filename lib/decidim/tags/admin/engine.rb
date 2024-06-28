@@ -29,11 +29,15 @@ module Decidim
             menu.add_item :tags,
                           I18n.t("menu.tags", scope: "decidim.tags.admin"),
                           decidim_tags_admin.tags_path,
-                          icon_name: "tag",
+                          icon_name: "price-tag-line",
                           position: 7.1,
                           active: :inclusive,
                           if: allowed_to?(:update, :organization, organization: current_organization)
           end
+        end
+
+        initializer "decidim_core.register_icons", after: "decidim_core.add_social_share_services" do
+          Decidim.icons.register(name: "price-tag-line", icon: "price-tag-line", category: "system", description: "", engine: :core)
         end
       end
     end

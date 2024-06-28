@@ -7,7 +7,7 @@ describe Decidim::Tags::OrganizationTags do
 
   let(:organization) { create(:organization) }
   let(:other_organization) { create(:organization) }
-  let(:tags) { create_list(:tag, 5, organization: organization) }
+  let(:tags) { create_list(:tag, 5, organization:) }
   let(:other_tags) { create_list(:tag, 3, organization: other_organization) }
 
   it "returns plans included in the organization" do

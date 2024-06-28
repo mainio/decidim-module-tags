@@ -2,9 +2,9 @@
 
 require "spec_helper"
 
-describe "Tags views", type: :system do
+describe "Tags" do
   let(:organization) { create(:organization) }
-  let(:user) { create(:user, :confirmed, organization: organization) }
+  let(:user) { create(:user, :confirmed, organization:) }
   let(:dummy_resource) { create(:dummy_resource) }
 
   before do
@@ -57,12 +57,14 @@ describe "Tags views", type: :system do
 
     before do
       allow(template.controller).to receive(:current_organization).and_return(organization)
-
       final_html = html_document
+      favicon = ""
+
       Rails.application.routes.draw do
         mount Decidim::Api::Engine => "/api"
 
         get "test_tags", to: ->(_) { [200, {}, [final_html]] }
+        get "/favicon.ico", to: ->(_) { [200, {}, [favicon]] }
       end
     end
 
@@ -75,21 +77,21 @@ describe "Tags views", type: :system do
     include_context "with a plain HTML page"
 
     let(:helsinki_tag) do
-      create(:tag, name: { en: "Helsinki" }, organization: organization)
+      create(:tag, name: { en: "Helsinki" }, organization:)
     end
     let!(:other_tags) do
       [
         helsinki_tag,
-        create(:tag, name: { en: "Heinola" }, organization: organization),
-        create(:tag, name: { en: "Hollola" }, organization: organization),
-        create(:tag, name: { en: "Jämijärvi" }, organization: organization),
-        create(:tag, name: { en: "Jämsä" }, organization: organization),
-        create(:tag, name: { en: "Järvenpää" }, organization: organization)
+        create(:tag, name: { en: "Heinola" }, organization:),
+        create(:tag, name: { en: "Hollola" }, organization:),
+        create(:tag, name: { en: "Jämijärvi" }, organization:),
+        create(:tag, name: { en: "Jämsä" }, organization:),
+        create(:tag, name: { en: "Järvenpää" }, organization:)
       ]
     end
-    let(:current_tags) { create_list(:tag, 5, organization: organization) }
+    let(:current_tags) { create_list(:tag, 5, organization:) }
     let(:form) do
-      Decidim::DummyResources::DummyResourceForm.from_params(
+      Decidim::Dev::DummyResourceForm.from_params(
         taggings: { tags: current_tags.map(&:id) }
       )
     end
@@ -100,7 +102,7 @@ describe "Tags views", type: :system do
           Decidim::ViewModel.cell(
             "decidim/tags/form",
             form,
-            context: { controller: controller }
+            context: { controller: }
           ).call.to_s
         end
       end
@@ -110,15 +112,15 @@ describe "Tags views", type: :system do
       visit "/test_tags"
       expect_no_js_errors
 
-      input = find("#dummy_resource_taggings_tags")
+      input = find_by_id("dummy_resource_taggings_tags")
       within input do
         current_tags.each do |tag|
-          expect(page).to have_selector(".label .tag-name", text: tag.name["en"])
+          expect(page).to have_css(".label .tag-name", text: tag.name["en"])
         end
       end
       within ".js-tags-input" do
         current_tags.each do |tag|
-          expect(page).to have_selector(
+          expect(page).to have_css(
             "input[name='dummy_resource[taggings][tags][]'][value='#{tag.id}'][data-tag-name='#{CGI.escapeHTML(tag.name["en"])}']",
             visible: :hidden
           )
@@ -127,17 +129,17 @@ describe "Tags views", type: :system do
 
       input.send_keys("he")
       within ".js-tags-input .autocomplete #results" do
-        expect(page).to have_selector("li", text: "Helsinki")
-        expect(page).to have_selector("li", text: "Heinola")
-        expect(page).not_to have_selector("li", text: "Hollola")
+        expect(page).to have_css("li", text: "Helsinki")
+        expect(page).to have_css("li", text: "Heinola")
+        expect(page).to have_no_css("li", text: "Hollola")
 
         find("li", text: "Helsinki").click
       end
       within input do
-        expect(page).to have_selector(".label .tag-name", text: "Helsinki")
+        expect(page).to have_css(".label .tag-name", text: "Helsinki")
       end
       within ".js-tags-input" do
-        expect(page).to have_selector(
+        expect(page).to have_css(
           "input[name='dummy_resource[taggings][tags][]'][value='#{helsinki_tag.id}'][data-tag-name='Helsinki']",
           visible: :hidden
         )
@@ -145,20 +147,20 @@ describe "Tags views", type: :system do
 
       input.send_keys("h")
       within ".js-tags-input .autocomplete #results" do
-        expect(page).not_to have_selector("li", text: "Helsinki")
-        expect(page).to have_selector("li", text: "Heinola")
-        expect(page).to have_selector("li", text: "Hollola")
+        expect(page).to have_no_css("li", text: "Helsinki")
+        expect(page).to have_css("li", text: "Heinola")
+        expect(page).to have_css("li", text: "Hollola")
       end
 
       # Remove "Helsinki" with sending backspaces
       input.send_keys([:backspace], [:backspace], [:backspace])
       within input do
-        expect(page).not_to have_selector(".label .tag-name", text: "Helsinki")
+        expect(page).to have_no_css(".label .tag-name", text: "Helsinki")
       end
 
       input.send_keys("foo")
       within ".js-tags-input .autocomplete #results" do
-        expect(page).to have_selector("li", text: "No tags available.")
+        expect(page).to have_css("li", text: "No tags available.")
       end
     end
   end
@@ -166,21 +168,21 @@ describe "Tags views", type: :system do
   describe "tags" do
     include_context "with a plain HTML page"
 
-    let(:participatory_space) { create(:participatory_process, organization: organization) }
-    let(:component) { create(:component, manifest_name: "dummy", participatory_space: participatory_space) }
+    let(:participatory_space) { create(:participatory_process, organization:) }
+    let(:component) { create(:component, manifest_name: "dummy", participatory_space:) }
     let(:taggable) do
-      resource = create(:dummy_resource, component: component)
+      resource = create(:dummy_resource, component:)
       resource.update!(tags: current_tags)
       resource
     end
-    let(:current_tags) { create_list(:tag, 5, organization: organization) }
+    let(:current_tags) { create_list(:tag, 5, organization:) }
     let(:html_body) do
       resource = taggable
       template.instance_eval do
         Decidim::ViewModel.cell(
           "decidim/tags/tags",
           resource,
-          context: { controller: controller }
+          context: { controller: }
         ).call.to_s
       end
     end
@@ -189,7 +191,7 @@ describe "Tags views", type: :system do
       visit "/test_tags"
 
       current_tags.each do |tag|
-        expect(page).to have_selector(".label", text: tag.name["en"])
+        expect(page).to have_css(".label", text: tag.name["en"])
       end
     end
   end

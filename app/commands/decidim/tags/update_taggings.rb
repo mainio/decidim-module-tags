@@ -33,7 +33,7 @@ module Decidim
 
       def update_taggings
         tagger = Tagger.new(
-          taggable: taggable,
+          taggable:,
           organization: form.organization
         )
         tagger.apply(form.tags)
