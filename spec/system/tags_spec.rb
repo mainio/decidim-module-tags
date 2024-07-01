@@ -102,7 +102,7 @@ describe "Tags" do
           Decidim::ViewModel.cell(
             "decidim/tags/form",
             form,
-            context: { controller: }
+            context: { view_context: self, controller: }
           ).call.to_s
         end
       end
@@ -113,9 +113,12 @@ describe "Tags" do
       expect_no_js_errors
 
       input = find_by_id("dummy_resource_taggings_tags")
+
+      puts "#{page.driver.browser.logs.get(:browser)}errors "
+
       within input do
         current_tags.each do |tag|
-          expect(page).to have_css("input[data-tag-name=#{tag.name["en"]}]")
+          expect(page).to have_css(".label .tag-name", text: tag.name["en"])
         end
       end
       within ".js-tags-input" do
