@@ -24,7 +24,7 @@ describe "Tags" do
           <head>
             <title>Tags Test</title>
             #{stylesheet_pack_tag "decidim_core"}
-            #{javascript_pack_tag "decidim_core"}
+            #{javascript_pack_tag "decidim_core", defer: false}
             #{snippets.display(:head)}
           </head>
           <body>
@@ -115,7 +115,7 @@ describe "Tags" do
       input = find_by_id("dummy_resource_taggings_tags")
       within input do
         current_tags.each do |tag|
-          expect(page).to have_css(".label .tag-name", text: tag.name["en"])
+          expect(page).to have_css("input[data-tag-name=#{tag.name["en"]}]")
         end
       end
       within ".js-tags-input" do
