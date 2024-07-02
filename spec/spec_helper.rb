@@ -10,11 +10,6 @@ Decidim::Dev.dummy_app_path =
 require "decidim/tags/test/railtie"
 require "decidim/dev/test/base_spec_helper"
 
-# This re-registration is made because of problems with chromedriver v120.
-# Selenium methods are undefined without this change.
-# See: https://github.com/decidim/decidim/pull/12160
-require "#{ENV.fetch("ENGINE_ROOT")}/lib/decidim/tags/test/rspec_support/capybara"
-
 # Make the DummyResource taggable for the specs.
 Decidim::Dev::DummyResource.include(Decidim::Tags::Taggable)
 Decidim::Dev::NestedDummyResource.include(Decidim::Tags::Taggable)
