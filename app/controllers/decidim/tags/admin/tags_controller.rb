@@ -29,6 +29,11 @@ module Decidim
           @form.taggable_id = taggable.to_sgid.to_s if taggable
         end
 
+        def edit
+          enforce_permission_to(:edit, :tag, tag:)
+          @form = form(Admin::TagForm).from_model(tag)
+        end
+
         def create
           enforce_permission_to :create, :tag
           @form = form(Admin::TagForm).from_params(params)
@@ -47,13 +52,8 @@ module Decidim
           end
         end
 
-        def edit
-          enforce_permission_to :edit, :tag, tag: tag
-          @form = form(Admin::TagForm).from_model(tag)
-        end
-
         def update
-          enforce_permission_to :edit, :tag, tag: tag
+          enforce_permission_to(:edit, :tag, tag:)
 
           @form = form(Admin::TagForm).from_params(params)
           Admin::UpdateTag.call(@form, @tag) do
@@ -70,7 +70,7 @@ module Decidim
         end
 
         def destroy
-          enforce_permission_to :destroy, :tag, tag: tag
+          enforce_permission_to(:destroy, :tag, tag:)
 
           Admin::DestroyTag.call(@tag, current_user) do
             on(:ok) do

@@ -17,7 +17,7 @@ module Decidim
       class Railtie < Rails::Railtie
         # Overrides the dummy resources admin engine routes.
         initializer "decidim_tags_test.mount_routes", before: "decidim_admin.mount_routes" do
-          Decidim::DummyResources::DummyAdminEngine.class_eval do
+          Decidim::Dev::AdminEngine.class_eval do
             isolate_namespace Decidim::DummyResources::Admin
 
             routes.prepend do

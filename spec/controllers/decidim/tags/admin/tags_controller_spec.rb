@@ -2,11 +2,11 @@
 
 require "spec_helper"
 
-describe Decidim::Tags::Admin::TagsController, type: :controller do
+describe Decidim::Tags::Admin::TagsController do
   routes { Decidim::Tags::Admin::Engine.routes }
 
   let(:organization) { create(:organization) }
-  let(:user) { create(:user, :confirmed, :admin, organization: organization) }
+  let(:user) { create(:user, :confirmed, :admin, organization:) }
 
   before do
     request.env["decidim.current_organization"] = organization
@@ -17,11 +17,12 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
     render_views
 
     before do
-      create_list(:tag, 10, organization: organization)
+      create_list(:tag, 10, organization:)
     end
 
     it "renders the index listing" do
       get :index
+
       expect(response).to have_http_status(:ok)
       expect(subject).to render_template(:index)
       expect(assigns(:tags).length).to eq(10)
@@ -43,7 +44,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
       end
 
       it "shows an error" do
-        post :create, params: params
+        post(:create, params:)
 
         expect(flash[:alert]).not_to be_empty
       end
@@ -66,9 +67,9 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
       end
 
       context "and a taggable resource is given in the params" do
-        let(:participatory_space) { create(:participatory_process, organization: organization) }
-        let(:component) { create(:component, manifest_name: "dummy", participatory_space: participatory_space) }
-        let(:taggable) { create(:dummy_resource, component: component) }
+        let(:participatory_space) { create(:participatory_process, organization:) }
+        let(:component) { create(:component, manifest_name: "dummy", participatory_space:) }
+        let(:taggable) { create(:dummy_resource, component:) }
         let(:locator) { double }
         let(:route_proxy) { double }
 
@@ -95,7 +96,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
   end
 
   describe "GET edit" do
-    let(:tag) { create(:tag, organization: organization) }
+    let(:tag) { create(:tag, organization:) }
 
     it "renders the edit view" do
       get :edit, params: { id: tag.id }
@@ -105,7 +106,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
   end
 
   describe "PUT update" do
-    let(:tag) { create(:tag, organization: organization) }
+    let(:tag) { create(:tag, organization:) }
 
     context "when name is empty" do
       let(:params) do
@@ -136,7 +137,7 @@ describe Decidim::Tags::Admin::TagsController, type: :controller do
   end
 
   describe "DELETE destroy" do
-    let(:tag) { create(:tag, organization: organization) }
+    let(:tag) { create(:tag, organization:) }
 
     it "destroys the tag" do
       tag_to_destroy = tag

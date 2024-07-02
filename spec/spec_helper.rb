@@ -16,9 +16,9 @@ require "decidim/dev/test/base_spec_helper"
 require "#{ENV.fetch("ENGINE_ROOT")}/lib/decidim/tags/test/rspec_support/capybara"
 
 # Make the DummyResource taggable for the specs.
-Decidim::DummyResources::DummyResource.include(Decidim::Tags::Taggable)
-Decidim::DummyResources::NestedDummyResource.include(Decidim::Tags::Taggable)
-Decidim::DummyResources::DummyResourceForm.include(Decidim::Tags::TaggableForm)
+Decidim::Dev::DummyResource.include(Decidim::Tags::Taggable)
+Decidim::Dev::NestedDummyResource.include(Decidim::Tags::Taggable)
+Decidim::Dev::DummyResourceForm.include(Decidim::Tags::TaggableForm)
 
 # This defines a custom endpoint for loading dummy resources through the API.
 class DummyResourceType < GraphQL::Schema::Object
@@ -41,7 +41,7 @@ module DummyExtension
   end
 
   def dummy(id:)
-    Decidim::DummyResources::DummyResource.where(id: id)
+    Decidim::Dev::DummyResource.where(id:)
   end
 end
 
@@ -63,8 +63,7 @@ RSpec.configure do |config|
         :nickname_included_in_password?,
         # :email_included_in_password?,
         :domain_included_in_password?,
-        :password_too_common?,
-        :blacklisted?
+        :password_too_common?
       ].freeze
     )
   end

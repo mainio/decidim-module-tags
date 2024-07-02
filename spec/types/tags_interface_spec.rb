@@ -25,7 +25,7 @@ module Decidim
         end
 
         before do
-          model.update!(tags: tags)
+          model.update!(tags:)
         end
 
         it "returns the tags" do

@@ -5,14 +5,14 @@ require "spec_helper"
 module Decidim
   module Tags
     module Admin
-      describe "TaggingsControllerPlain", type: :controller do
+      describe "TaggingsControllerPlain" do
         controller do
           include Decidim::FormFactory
           include Decidim::Tags::Admin::TaggingsController
         end
 
         let(:organization) { create(:organization) }
-        let(:user) { create(:user, :admin, :confirmed, organization: organization) }
+        let(:user) { create(:user, :admin, :confirmed, organization:) }
 
         before do
           request.env["decidim.current_organization"] = organization

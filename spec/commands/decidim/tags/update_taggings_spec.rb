@@ -8,7 +8,7 @@ describe Decidim::Tags::UpdateTaggings do
   let(:component) { create(:component, manifest_name: "dummy") }
   let(:participatory_space) { component.participatory_space }
   let(:organization) { participatory_space.organization }
-  let(:user) { create(:user, :admin, :confirmed, organization: organization) }
+  let(:user) { create(:user, :admin, :confirmed, organization:) }
   let(:form) do
     form_klass.from_params(
       form_params
@@ -18,10 +18,10 @@ describe Decidim::Tags::UpdateTaggings do
     )
   end
 
-  let(:tags_before) { create_list(:tag, 5, organization: organization) }
-  let(:tags_after) { create_list(:tag, 5, organization: organization) }
+  let(:tags_before) { create_list(:tag, 5, organization:) }
+  let(:tags_after) { create_list(:tag, 5, organization:) }
 
-  let!(:taggable) { create(:dummy_resource, component: component) }
+  let!(:taggable) { create(:dummy_resource, component:) }
 
   before do
     taggable.update!(tags: tags_before)
@@ -48,7 +48,7 @@ describe Decidim::Tags::UpdateTaggings do
       it "doesn't update the taggings" do
         change_eval = lambda {
           Decidim::Tags::Tagging.where(
-            taggable: taggable
+            taggable:
           ).collect { |pt| pt.tag.id }
         }
 
@@ -64,7 +64,7 @@ describe Decidim::Tags::UpdateTaggings do
       it "updates the taggings" do
         change_eval = lambda {
           Decidim::Tags::Tagging.where(
-            taggable: taggable
+            taggable:
           ).collect { |pt| pt.tag.id }
         }
 
@@ -79,7 +79,7 @@ describe Decidim::Tags::UpdateTaggings do
 
           expect(
             Decidim::Tags::Tagging.where(
-              taggable: taggable
+              taggable:
             ).collect { |pt| pt.tag.id }
           ).to match_array(tags_after.map(&:id))
         end
@@ -93,7 +93,7 @@ describe Decidim::Tags::UpdateTaggings do
 
           expect(
             Decidim::Tags::Tagging.where(
-              taggable: taggable
+              taggable:
             ).count
           ).to eq(0)
         end

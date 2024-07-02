@@ -37,7 +37,7 @@
             <td>{{tag_name}}</td>
             <td>
               <input type="hidden" name="tags[]" value="{{tag_id}}">
-              <%= icon_link_to "circle-x", "#", t("actions.destroy", scope: "decidim.tags"), class: "remove-tagging action-icon--remove" %>
+              <%= icon_link_to "delete-bin-line", "#", t("actions.destroy", scope: "decidim.tags"), class: "remove-tagging action-icon--remove" %>
             </td>
           </tr>
         </template>
@@ -62,4 +62,4 @@
   </div>
 <% end %>
 
-<%= javascript_pack_tag "decidim_tags_admin" %>
+<%= append_javascript_pack_tag "decidim_tags_admin" %>

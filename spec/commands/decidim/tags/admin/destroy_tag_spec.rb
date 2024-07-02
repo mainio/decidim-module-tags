@@ -4,9 +4,9 @@ require "spec_helper"
 
 describe Decidim::Tags::Admin::DestroyTag do
   let(:organization) { create(:organization) }
-  let(:user) { create :user, :admin, :confirmed, organization: organization }
+  let(:user) { create(:user, :admin, :confirmed, organization:) }
 
-  let!(:tag) { create :tag, organization: organization }
+  let!(:tag) { create(:tag, organization:) }
 
   describe "call" do
     let(:command) { described_class.new(tag, user) }

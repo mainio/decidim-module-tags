@@ -21,9 +21,9 @@ module Decidim
 
         def taggable
           @taggable ||= if params[:nested]
-                          DummyResources::NestedDummyResource.find(params[:dummy_resource_id])
+                          Dev::NestedDummyResource.find(params[:dummy_resource_id])
                         else
-                          DummyResources::DummyResource.find(params[:dummy_resource_id])
+                          Dev::DummyResource.find(params[:dummy_resource_id])
                         end
         end
       end

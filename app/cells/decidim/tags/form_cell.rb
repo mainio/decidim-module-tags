@@ -9,12 +9,7 @@ module Decidim
       delegate :snippets, to: :controller
 
       def show
-        unless snippets.any?(:tags)
-          snippets.add(:tags, javascript_pack_tag("decidim_tags"))
-
-          # This will display the snippets in the <head> part of the page.
-          snippets.add(:head, snippets.for(:tags))
-        end
+        append_javascript_pack_tag("decidim_tags")
 
         render
       end

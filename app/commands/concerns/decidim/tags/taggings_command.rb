@@ -27,8 +27,8 @@ module Decidim
           end
 
         tagger = Tagger.new(
-          taggable: taggable,
-          organization: organization
+          taggable:,
+          organization:
         )
         tagger.apply(form.taggings&.tags)
       end
