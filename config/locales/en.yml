@@ -50,6 +50,7 @@ en:
       models:
         tag:
           fields:
+            actions: Actions
             id: ID
             created_at: Creation time
             name: Name

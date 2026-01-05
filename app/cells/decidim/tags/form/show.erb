@@ -1,14 +1,15 @@
 <% form.fields_for :taggings, form.object.taggings do |tags_form| %>
-  <%= content_tag :div, class: "js-tags-input", data: {
+  <%= content_tag :div, class: "js-tags-input space-y-1",
+  data: {
     remove_text: t(".remove"),
     loading_text: t(".loading"),
     no_results_text: t(".no_results"),
     input_name: field_name(tags_form)
   } do %>
     <% if label != false %>
-      <label for="<%= input_id(tags_form) %>"><%= label %></label>
+      <label for="<%= input_id(tags_form) %>" class="block text-sm font-medium"><%= label %></label>
     <% end %>
-    <div id="<%= input_id(tags_form) %>" class="input input-tags" contenteditable="true"></div>
+    <div id="<%= input_id(tags_form) %>" class="input input-tags form-input flex flex-wrap gap-2 min-h-[2.5rem] px-3 py-2 appearance-none" contenteditable="true"></div>
 
     <% existing_tags_for(tags_form).each do |tag| %>
       <%= tags_form.hidden_field "tags[]", value: tag.id, data: { tag_name: translated_attribute(tag.name) } %>

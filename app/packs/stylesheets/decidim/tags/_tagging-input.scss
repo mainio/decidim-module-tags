@@ -4,41 +4,24 @@
 // Make sure you include this AFTER `@import "decidim/application";`, otherwise
 // the mixin won't be available.
 
-// $tag-input-height: ($input-font-size * unitless-calc($input-line-height)) + (get-side($input-padding, 'top') + get-side($input-padding, 'bottom')) - rem-calc(1) !default;
+.js-tags-input{
+  .input-tags{
+    @apply border border-black;
 
-// .input{
-//   @include form-element;
+    &.empty{
+      @apply px-3 py-2;
+    }
 
-//   appearance: none;
-// }
+    .label{
+      @apply inline-flex items-center rounded bg-gray-3 px-2 py-1 text-sm;
+    }
+  }
 
-// .js-tags-input{
-//   .input-tags{
-//     height: auto;
-//     padding: 0 $input-padding; // provided by the label margins
-//     min-height: $tag-input-height;
+  .autocomplete{
+    @apply relative;
 
-//     &.empty{
-//       padding: $input-padding;
-//     }
-
-//     .label{
-//       margin: $input-padding $input-padding $input-padding 0;
-
-//       &:first-of-type{
-//         margin-left: 0;
-//       }
-//     }
-//   }
-
-//   .autocomplete{
-//     position: relative; // Keeps the tribute container in correct position
-
-//     .tribute-container{
-//       top: -2px; // border width
-//       margin-top: -$form-spacing; // attach to the input
-//       max-width: none;
-//       width: 100%;
-//     }
-//   }
-// }
+    .tribute-container{
+      @apply absolute top-[-2px] mt-[-0.5rem] max-w-none w-full;
+    }
+  }
+}

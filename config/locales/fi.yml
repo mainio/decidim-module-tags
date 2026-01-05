@@ -50,6 +50,7 @@ fi:
       models:
         tag:
           fields:
+            actions: Toiminnot
             id: ID
             created_at: Luontiaika
             name: Nimi
