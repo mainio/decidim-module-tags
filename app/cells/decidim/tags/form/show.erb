@@ -1,18 +1,18 @@
 <% form.fields_for :taggings, form.object.taggings do |tags_form| %>
-  <%= content_tag :div, class: "js-tags-input space-y-1",
-  data: {
-    remove_text: t(".remove"),
-    loading_text: t(".loading"),
-    no_results_text: t(".no_results"),
-    input_name: field_name(tags_form)
-  } do %>
+  <div class="row column">
     <% if label != false %>
       <label for="<%= input_id(tags_form) %>" class="block text-sm font-medium"><%= label %></label>
     <% end %>
-    <div id="<%= input_id(tags_form) %>" class="input input-tags form-input flex flex-wrap gap-2 min-h-[2.5rem] px-3 py-2 appearance-none" contenteditable="true"></div>
 
-    <% existing_tags_for(tags_form).each do |tag| %>
-      <%= tags_form.hidden_field "tags[]", value: tag.id, data: { tag_name: translated_attribute(tag.name) } %>
-    <% end %>
-  <% end %>
+    <select id="tags_list"
+            placeholder="<%= t(".choose_tags") %>"
+            data-tm-name="<%= field_name(tags_form) %>"
+            data-tm-items="<%= selected_tags(tags_form) %>"
+            data-tm-no-results="<%= t(".no_results") %>"
+            class="mt-4" multiple>
+      <% tag_options.each do |tag| %>
+        <option value="<%= tag.id %>"><%= translated_attribute(tag.name) %></option>
+      <% end %>
+    </select>
+  </div>
 <% end %>

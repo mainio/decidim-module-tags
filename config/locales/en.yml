@@ -44,6 +44,7 @@ en:
             invalid: Error updating.
             success: Updated successfully.
       form:
+        choose_tags: Choose tags
         loading: Loading...
         no_results: No tags available.
         remove: Remove

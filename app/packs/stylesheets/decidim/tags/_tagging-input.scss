@@ -3,25 +3,5 @@
 //
 // Make sure you include this AFTER `@import "decidim/application";`, otherwise
 // the mixin won't be available.
+@import "tom-select/dist/scss/tom-select";
 
-.js-tags-input{
-  .input-tags{
-    @apply border border-black;
-
-    &.empty{
-      @apply px-3 py-2;
-    }
-
-    .label{
-      @apply inline-flex items-center rounded bg-gray-3 px-2 py-1 text-sm;
-    }
-  }
-
-  .autocomplete{
-    @apply relative;
-
-    .tribute-container{
-      @apply absolute top-[-2px] mt-[-0.5rem] max-w-none w-full;
-    }
-  }
-}

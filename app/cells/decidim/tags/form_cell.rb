@@ -16,11 +16,12 @@ module Decidim
 
       private
 
-      def existing_tags_for(form)
-        return [] unless form
-        return [] unless form.object
+      def selected_tags(form)
+        form.object.tag_models.pluck(:id).to_json
+      end
 
-        form.object.tag_models
+      def tag_options
+        Decidim::Tags::Tag.where(organization: current_organization)
       end
 
       def field_name(form)
