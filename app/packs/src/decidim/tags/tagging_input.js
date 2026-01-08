@@ -25,12 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const tagsInput = currentColumn.querySelector(".ts-control #tags_list-ts-control")
 
       if (!tagsInput.classList.contains("placeholder-transparent") && tom.items.length > 0) {
+        console.log("testi")
         tagsInput.classList.add("placeholder-transparent");
       } else if (tagsInput.classList.contains("placeholder-transparent") && tom.items.length === 0) {
         tagsInput.classList.remove("placeholder-transparent");
       }
     }
 
+    togglePlaceholder();
     tom.on("item_add", togglePlaceholder);
     tom.on("item_remove", togglePlaceholder);
 

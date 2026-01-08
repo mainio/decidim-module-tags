@@ -57,6 +57,9 @@ describe "Tags" do
 
     before do
       allow(template.controller).to receive(:current_organization).and_return(organization)
+      allow(Decidim::Tags::FormCell).to receive(:tag_options)
+        .and_return(all_tags)
+
       final_html = html_document
       favicon = ""
 
@@ -90,6 +93,7 @@ describe "Tags" do
       ]
     end
     let(:current_tags) { create_list(:tag, 5, organization:) }
+    let(:all_tags) { other_tags + current_tags }
     let(:form) do
       Decidim::Dev::DummyResourceForm.from_params(
         taggings: { tags: current_tags.map(&:id) }
@@ -112,58 +116,58 @@ describe "Tags" do
       visit "/test_tags"
       expect_no_js_errors
 
-      input = find_by_id("dummy_resource_taggings_tags")
+      input = find_by_id("tags_list")
 
       puts "#{page.driver.browser.logs.get(:browser)}errors "
 
       within input do
         current_tags.each do |tag|
-          expect(page).to have_css(".label .tag-name", text: tag.name["en"])
+          expect(page).to have_css("option", text: tag.name["en"])
         end
       end
-      within ".js-tags-input" do
+      within ".row.column" do
         current_tags.each do |tag|
           expect(page).to have_css(
-            "input[name='dummy_resource[taggings][tags][]'][value='#{tag.id}'][data-tag-name='#{CGI.escapeHTML(tag.name["en"])}']",
-            visible: :hidden
+            "input[name='dummy_resource[taggings][tags][]'][value='#{tag.id}']", visible: :hidden
+          )
+
+          expect(page).to have_css(
+            "div.ts-control div.item[data-value='#{tag.id}']", text: tag.name["en"]
           )
         end
       end
 
-      input.send_keys("he")
-      within ".js-tags-input .autocomplete #results" do
-        expect(page).to have_css("li", text: "Helsinki")
-        expect(page).to have_css("li", text: "Heinola")
-        expect(page).to have_no_css("li", text: "Hollola")
+      search_input = find_by_id("tags_list-ts-control")
+      search_input.send_keys("he")
 
-        find("li", text: "Helsinki").click
+      within ".ts-dropdown-content#tags_list-ts-dropdown" do
+        expect(page).to have_css("div.option", text: "Helsinki")
+        expect(page).to have_css("div.option", text: "Heinola")
+        expect(page).to have_no_css("div.option", text: "Hollola")
+
+        find("div.option", text: "Helsinki").click
       end
       within input do
-        expect(page).to have_css(".label .tag-name", text: "Helsinki")
-      end
-      within ".js-tags-input" do
-        expect(page).to have_css(
-          "input[name='dummy_resource[taggings][tags][]'][value='#{helsinki_tag.id}'][data-tag-name='Helsinki']",
-          visible: :hidden
-        )
+        expect(page).to have_css("option", text: "Helsinki")
       end
 
-      input.send_keys("h")
-      within ".js-tags-input .autocomplete #results" do
-        expect(page).to have_no_css("li", text: "Helsinki")
-        expect(page).to have_css("li", text: "Heinola")
-        expect(page).to have_css("li", text: "Hollola")
+      search_input.send_keys([:backspace], [:backspace])
+      search_input.send_keys("h")
+      within ".ts-dropdown-content#tags_list-ts-dropdown" do
+        expect(page).to have_no_css("div.option", text: "Helsinki")
+        expect(page).to have_css("div.option", text: "Heinola")
+        expect(page).to have_css("div.option", text: "Hollola")
       end
 
       # Remove "Helsinki" with sending backspaces
-      input.send_keys([:backspace], [:backspace], [:backspace])
+      search_input.send_keys([:backspace], [:backspace], [:backspace])
       within input do
         expect(page).to have_no_css(".label .tag-name", text: "Helsinki")
       end
 
-      input.send_keys("foo")
-      within ".js-tags-input .autocomplete #results" do
-        expect(page).to have_css("li", text: "No tags available.")
+      search_input.send_keys("foo")
+      within ".ts-dropdown-content#tags_list-ts-dropdown" do
+        expect(page).to have_css("div.no-results", text: "No tags available.")
       end
     end
   end
@@ -179,6 +183,7 @@ describe "Tags" do
       resource
     end
     let(:current_tags) { create_list(:tag, 5, organization:) }
+    let(:all_tags) { current_tags }
     let(:html_body) do
       resource = taggable
       template.instance_eval do
