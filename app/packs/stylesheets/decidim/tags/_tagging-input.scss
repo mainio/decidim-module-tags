@@ -5,16 +5,16 @@
 // the mixin won't be available.
 @import "tom-select/dist/scss/tom-select";
 
-.ts-wrapper.plugin-dropdown_input.focus.dropdown-active  {
-  .ts-control {
+.ts-wrapper.plugin-dropdown_input.focus.dropdown-active{
+  .ts-control{
     @apply border-black rounded-none;
   }
 }
 
-.ts-control {
+.ts-control{
   @apply border-black rounded-none;
 
-  input {
+  input{
     @apply text-lg text-black;
   }
 }
