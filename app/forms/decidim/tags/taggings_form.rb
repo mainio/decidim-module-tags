@@ -9,7 +9,7 @@ module Decidim
 
       alias organization current_organization
 
-      attribute :tags, Array[Integer]
+      attribute :tags, [Integer]
 
       validates :organization, presence: true
 

@@ -28,7 +28,7 @@ module Decidim
         ).joins(
           "LEFT JOIN #{taggable_class.table_name} ON #{taggable_class.table_name}.id = decidim_tags_taggings.decidim_taggable_id"
         ).where(
-          decidim_tags_tags: {
+          :decidim_tags_tags => {
             decidim_organization_id: @component.organization.id
           },
           taggable_class.table_name.to_sym => {
