@@ -31,11 +31,6 @@ group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
 
-  # Needed to update these gems to work with 0.29
-  # gem "rubocop", "~> 1.57"
-  # gem "rubocop-faker", "~> 1.1"
-  # gem "rubocop-rspec", "~> 3.0"
-
   # Fix issue with simplecov-cobertura
   # See: https://github.com/jessebs/simplecov-cobertura/pull/44
   gem "rexml", "3.4.1"
