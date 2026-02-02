@@ -1,7 +1,7 @@
 /.bundle/
 /.yardoc
-/_yardoc/
 /coverage/
+/_yardoc/
 /doc/
 /pkg/
 /spec/reports/
@@ -21,3 +21,5 @@ spec/decidim_dummy_app
 
 # default development application
 *development_app
+
+.rbenv-vars

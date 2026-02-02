@@ -7,7 +7,7 @@ require "decidim/tags/version"
 Gem::Specification.new do |spec|
   spec.name = "decidim-tags"
   spec.version = Decidim::Tags.version
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 3.2"
   spec.authors = ["Antti Hukkanen"]
   spec.email = ["antti.hukkanen@mainiotech.fi"]
 
@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "decidim-core", Decidim::Tags.decidim_version
 
-  spec.add_development_dependency "decidim-dev", Decidim::Tags.decidim_version
+  # spec.add_development_dependency "decidim-dev", Decidim::Tags.decidim_version
   spec.metadata["rubygems_mfa_required"] = "true"
 end
