@@ -18,7 +18,7 @@ module Decidim
 
       def selected_tags(form)
         return [].to_json if form.object.blank?
-        
+
         form.object.tag_models.pluck(:id).to_json
       end
 
