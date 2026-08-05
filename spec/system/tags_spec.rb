@@ -118,8 +118,6 @@ describe "Tags" do
 
       input = find_by_id("tags_list")
 
-      puts "#{page.driver.browser.logs.get(:browser)}errors "
-
       within input do
         current_tags.each do |tag|
           expect(page).to have_css("option", text: tag.name["en"])
