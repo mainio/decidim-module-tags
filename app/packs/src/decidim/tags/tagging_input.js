@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import TomSelect from "tom-select/dist/cjs/tom-select.popular";
 
 document.addEventListener("DOMContentLoaded", () => {
