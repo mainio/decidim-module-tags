@@ -1,4 +1,4 @@
-import AutoComplete from "src/decidim/autocomplete";
+import AutoComplete from "src/decidim/refactor/moved/autocomplete";
 $(() => {
   const currentLocale = $("html").attr("lang");
   const searchInput = document.getElementById("data_picker-autocomplete");
