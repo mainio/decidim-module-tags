@@ -26,7 +26,7 @@ fi:
             success: Merkintöjen päivitys onnistui.
         tags:
           create:
-            error: Luonti epäonnistui.
+            invalid: Luonti epäonnistui.
             success: Luonti onnistui.
           destroy:
             error: Virhe poistettaessa.

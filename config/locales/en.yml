@@ -26,7 +26,7 @@ en:
             success: Tags updated successfully.
         tags:
           create:
-            error: Failed to create.
+            invalid: Failed to create.
             success: Created successfully.
           destroy:
             error: Error deleting.

@@ -26,7 +26,7 @@ sv:
             success: Taggar uppdaterats.
         tags:
           create:
-            error: Det gick inte att skapa.
+            invalid: Det gick inte att skapa.
             success: Skapats.
           destroy:
             error: Fel vid borttagning.
