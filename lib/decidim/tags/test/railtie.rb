@@ -21,15 +21,15 @@ module Decidim
             isolate_namespace Decidim::DummyResources::Admin
 
             routes.prepend do
-              resources :dummy_resources do
-                resource :taggings, only: [:show, :update]
+              resources :dummy_resources, controller: "decidim/dummy_resources/admin/dummy_resources" do
+                resource :taggings, only: [:show, :update], controller: "decidim/dummy_resources/admin/taggings"
               end
 
               # This is just to test the breadcrumbs naming when the title
               # is not translatable. The view expects to find these paths in
               # the engine.
-              resources :nested_dummy_resources do
-                resource :taggings, only: [:show, :update]
+              resources :nested_dummy_resources, controller: "decidim/dummy_resources/admin/dummy_resources" do
+                resource :taggings, only: [:show, :update], controller: "decidim/dummy_resources/admin/taggings"
               end
             end
           end

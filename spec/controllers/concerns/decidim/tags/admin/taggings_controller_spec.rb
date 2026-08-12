@@ -23,6 +23,7 @@ module Decidim
           taggable.update!(tags:)
 
           routes.draw do
+            resources :dummy_resources, only: [:index], controller: "decidim/dummy_resources/admin/dummy_resources"
             get "show" => "decidim/dummy_resources/admin/taggings#show"
             get "update" => "decidim/dummy_resources/admin/taggings#update"
           end
@@ -49,7 +50,7 @@ module Decidim
           it "updates the record successfully" do
             patch(:update, params:)
 
-            expect(response).to redirect_to("/dummy_resources")
+            expect(response).to redirect_to(dummy_resources_path)
             expect(final.tags.map(&:id)).to match_array(new_tags.map(&:id))
           end
 
