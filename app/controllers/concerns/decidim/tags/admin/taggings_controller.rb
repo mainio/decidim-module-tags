@@ -54,12 +54,14 @@ module Decidim
         end
 
         def show
+          enforce_permission_to :read, :taggable, taggable:
           @form = form(Decidim::Tags::TaggingsForm).from_model(taggable)
 
           render "decidim/tags/admin/taggings/show"
         end
 
         def update
+          enforce_permission_to :read, :taggable
           @form = form(Decidim::Tags::TaggingsForm).from_params(params)
           Decidim::Tags::UpdateTaggings.call(@form, taggable) do
             on(:ok) do
